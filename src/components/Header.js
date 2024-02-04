@@ -1,4 +1,11 @@
 import {NavLink} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+
+// actions from slices
+// usersSlice
+import {
+    selectUser,
+} from '../features/users/usersSlice'
 
 // icons
 // pen
@@ -11,6 +18,10 @@ import LogoutHeader from './sub-header/LogoutHeader'
 
 // main
 const Header = () => {
+    // states from slices
+    // users
+    const user = useSelector(selectUser)
+
   return (
     <header className='py-1 text-xs text-emerald-700 font-serif'>
         <div className='max-w-[720px] mx-auto px-3 flex items-start justify-between py-2'>
@@ -25,9 +36,9 @@ const Header = () => {
             {/* nav link */}
             <div className='flex-grow flex items-center justify-end border-b border-emerald-700 border-opacity-[.15]'>
                 {
-                    !true 
+                    user 
                     ?
-                    <LoginHeaer />
+                    <LoginHeaer user={user}/>
                     :
                     <LogoutHeader />
                 }

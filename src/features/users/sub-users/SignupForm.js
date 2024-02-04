@@ -1,5 +1,14 @@
 import {useState} from 'react'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+
+// actions from slices
+// usersSlice
+import {
+    signup,
+    selectErrors,
+    selectIsUserPending,
+    resetErrors,
+} from '../usersSlice'
 
 // actions from slices
 // usersSlcie
@@ -7,11 +16,19 @@ import {
     setIsLogin,
 } from '../usersSlice'
 
+// sub-users
+import UsersSpinner from './UsersSpinner'
+
 // main
 const SignupForm = () => {
     // local state
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
+
+    // states from slices
+    // usersSlice
+    const isUserPending = useSelector(selectIsUserPending)
+    const errors = useSelector(selectErrors)
 
     // hooks
     const dispatch = useDispatch()
@@ -36,8 +53,12 @@ const SignupForm = () => {
         }else {
             usernameError.textContent = ''
             passwordError.textContent = ''
-            console.log({username,password})
+            dispatch(signup({username,password}))
         }
+    }
+
+    if(isUserPending){
+        return <UsersSpinner />
     }
 
   return (
@@ -56,7 +77,7 @@ const SignupForm = () => {
                         onChange={e=>setUsername(e.target.value)} 
                     />
                 </div>
-                <div className="flex items-center justify-center text-[.65rem] text-red-700" id='signup-username-error'></div>
+                <div className="flex items-center justify-center text-[.65rem] text-red-700" id='signup-username-error'>{errors?.username}</div>
             </div>
             {/* input-container */}
             <div className="mb-2">
@@ -67,7 +88,7 @@ const SignupForm = () => {
                         onChange={e=>setPassword(e.target.value)} 
                     />
                 </div>
-                <div className="flex items-center justify-center text-[.65rem] text-red-700" id='signup-password-error'></div>
+                <div className="flex items-center justify-center text-[.65rem] text-red-700" id='signup-password-error'>{errors?.password}</div>
             </div>
             {/* button */}
             <div className="flex items-center justify-center my-2 bg-emerald-700 rounded-sm text-gray-300 cursor-pointer transition-all ease-in-out duration-300 hover:opacity-[.75]" 
@@ -82,6 +103,7 @@ const SignupForm = () => {
                 <span className="hover:underline cursor-pointer"
                     onClick={()=>{
                         dispatch(setIsLogin(true))
+                        dispatch(resetErrors())
                     }} 
                 >have an account?</span>
             </div>

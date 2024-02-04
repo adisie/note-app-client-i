@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux'
 // usersSlice
 import {
     setIsLogin,
+    resetErrors,
 } from '../../features/users/usersSlice'
 
 // main
@@ -17,12 +18,14 @@ const LogoutHeader = () => {
             className={'ml-3 border border-emerald-700 border-opacity-[.5] px-5 py-[.13rem] rounded-sm'} 
             onClick={()=>{
                 dispatch(setIsLogin(true))
+                dispatch(resetErrors())
             }}
         >Login</NavLink>
         <NavLink to={'/users'}
             className={'ml-3 border border-emerald-700 border-opacity-[.5] px-5 py-[.13rem] rounded-sm'} 
             onClick={()=>{
                 dispatch(setIsLogin(false))
+                dispatch(resetErrors())
             }}
         >Signup</NavLink>
     </div>

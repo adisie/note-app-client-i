@@ -1,11 +1,18 @@
 import {useState} from 'react'
-import {useDispatch} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 
 // actions from slices
 // usersSlice
 import {
     setIsLogin,
+    login,
+    selectIsUserPending,
+    selectErrors,
+    resetErrors,
 } from '../usersSlice'
+
+// sub-users
+import UsersSpinner from './UsersSpinner'
 
 // main
 const LoginForm = () => {
@@ -13,8 +20,14 @@ const LoginForm = () => {
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
 
+    // states from slices
+    const isUserPending = useSelector(selectIsUserPending)
+    const errors = useSelector(selectErrors)
+
     // hooks
     const dispatch = useDispatch()
+
+    
 
     // submit handler
     const submitHandler = () => {
@@ -36,8 +49,12 @@ const LoginForm = () => {
         }else {
             usernameError.textContent = ''
             passwordError.textContent = ''
-            console.log({username,password})
+            dispatch(login({username,password}))
         }
+    }
+
+    if(isUserPending){
+        return <UsersSpinner />
     }
 
   return (
@@ -56,7 +73,7 @@ const LoginForm = () => {
                         onChange={e=>setUsername(e.target.value)} 
                     />
                 </div>
-                <div className="flex items-center justify-center text-[.65rem] text-red-700" id='login-username-error'></div>
+                <div className="flex items-center justify-center text-[.65rem] text-red-700" id='login-username-error'>{errors?.username}</div>
             </div>
             {/* input-container */}
             <div className="mb-2">
@@ -67,7 +84,7 @@ const LoginForm = () => {
                         onChange={e=>setPassword(e.target.value)} 
                     />
                 </div>
-                <div className="flex items-center justify-center text-[.65rem] text-red-700" id='login-password-error'></div>
+                <div className="flex items-center justify-center text-[.65rem] text-red-700" id='login-password-error'>{errors?.password}</div>
             </div>
             {/* button */}
             <div className="flex items-center justify-center my-2 bg-emerald-700 rounded-sm text-gray-300 cursor-pointer transition-all ease-in-out duration-300 hover:opacity-[.75]" 
@@ -82,6 +99,7 @@ const LoginForm = () => {
                 <span className="hover:underline cursor-pointer" 
                     onClick={()=>{
                         dispatch(setIsLogin(false))
+                        dispatch(resetErrors())
                     }}
                 >no account?</span>
             </div>

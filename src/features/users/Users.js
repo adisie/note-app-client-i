@@ -1,9 +1,12 @@
+import { useEffect } from 'react'
+import {useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 
 // actions from slices
 // usersSlice
 import {
     selectIsLogin,
+    selectUser,
 } from './usersSlice'
 
 // sub-users
@@ -15,6 +18,17 @@ const Users = () => {
     // states from slices
     // usersSlice
     const isLogin = useSelector(selectIsLogin)
+    const user = useSelector(selectUser)
+
+    // hooks
+    const navigate = useNavigate() 
+
+    // effect
+    useEffect(()=>{
+        if(user){
+            navigate('/')
+        }
+    })
 
   return (
     <div className="flex-grow flex">
