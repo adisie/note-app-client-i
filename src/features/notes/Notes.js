@@ -46,7 +46,7 @@ const Notes = () => {
 
   // check-auth
   useEffect(()=>{
-    dispatch(checkAuth())
+    // dispatch(checkAuth())
   },[])
 
   // all notes
