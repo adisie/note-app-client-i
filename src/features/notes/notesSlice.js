@@ -42,7 +42,6 @@ const notesSlice = createSlice({
     initialState,
     reducers: {
         addNewNoteEvent: (state,action) => {
-            console.log(action.payload)
             let notes = [action.payload,...state.notes]
             let filteredNotes = []
             notes.forEach(no=>{
@@ -70,7 +69,6 @@ const notesSlice = createSlice({
             // add note
             // fulfilled 
             .addCase(addNewNote.fulfilled,(state,action) => {
-                console.log(action.payload)
                 if(action.payload.note){
                     // emit
                     SOCKET.emit('addNewNote',action.payload.note)
