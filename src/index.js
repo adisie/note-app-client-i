@@ -13,7 +13,8 @@ import './index.css'
 import App from './App'
 
 // defaults
-axios.defaults.baseURL = 'https://note-app-server-i.onrender.com'
+axios.defaults.baseURL = 'http://localhost:5050'
+// axios.defaults.baseURL = 'https://note-app-server-i.onrender.com'
 axios.defaults.withCredentials = true
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
